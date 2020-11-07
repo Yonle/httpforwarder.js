@@ -1,4 +1,4 @@
-# HTTP Forwsrder
+# HTTPForwarder.js
 A lightweight HTTP Forwarder Module made for Express Middleware & Cli
 
 # Getting Started
@@ -11,8 +11,7 @@ npm i httpforwarder.js
 npm i -g httpforwarder.js
 ```
 
-# Module Usage [BETA]
-This is BETA feature, Which mean this Feature is not Stable & May bugless. 
+# Module Usage 
 ## General
 ```js
 const app = require("express")();
@@ -25,7 +24,8 @@ app.use(hf("https://www.example.com"));
 app.listen(3000)
 ```
 Then, Open your Browser and Visit http://localhost:3000
-# CLI usage [Stable]
+**NOTE**: `app.use("/forwarded", hf("https://www.example.com"));` method Is not Working Anymore!!!!
+# CLI usage 
 Forward a URL from **www.example.com** to Port 8080
 ```
 hf 8080 https://www.example.com
@@ -63,4 +63,5 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
 

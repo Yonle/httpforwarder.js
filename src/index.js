@@ -1,6 +1,6 @@
 var request = require("request");
 
-module.exports = function(url) {
+module.exports = function(url, (err, ress)) {
 if (!url||url === null||url === "") return console.log("[HTTPForwarder.js] Hostname should not Empty")
   return async (req, res, next) => {
   var target = url+req.originalUrl;
@@ -12,10 +12,12 @@ if (!url||url === null||url === "") return console.log("[HTTPForwarder.js] Hostn
       if (error) {
       var errormsg = error.code || "Fail";
       res.status(503)
-      res.send("<h1>503 Service Unavailable</h1>")
+      res.send("<h1>503 Service Unavailable</h1>");
+      err(error);
+      ress(response);
       return false;
   }
-res.statusCode = response.statusCode;
- })).pipe( res );
+ress(response);
+})).pipe( res );
 };
 }
