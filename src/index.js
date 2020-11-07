@@ -12,11 +12,15 @@ if (!url||url === null||url === "") return console.log("[HTTPForwarder.js] Hostn
       var errormsg = error.code || "Fail";
       res.status(503)
       res.send("<h1>503 Service Unavailable</h1>");
+      if (typeof(cb) === "function){
+      cb(error, response);
+      } else {
       throw new Error(error);
+      }
       return next();
   }
 if (typeof(cb) === "function") {
-cb(response);
+cb(undefined, response);
 }
 next();
 })).pipe( res );
