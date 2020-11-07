@@ -2,6 +2,7 @@
 A lightweight HTTP Forwarder Module made for Express Middleware & Cli
 
 # Getting Started
+Installing as Module :
 ```bash
 npm i httpforwarder.js
 ```
@@ -39,9 +40,10 @@ if (req) console.log("--> Client Requested");
 //If the Provided Host is Completely Loaded
 if (res) console.log(`--> Response Sended (${res.statusCode})`);
 }));
+```
 # CLI usage 
 Forward a URL from **www.example.com** to Port 8080
-```
+```bash
 hf 8080 https://www.example.com
 ```
 Then, Visit http://localhost:8080
