@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.com/Yonle/httpforwarder.js.svg?token=siupXwSyfqgsbWPiyyVd&branch=main)](https://travis-ci.com/Yonle/httpforwarder.js)
-# HTTPForwarder.js
+# HTTPForwarder.js [![Build Status](https://travis-ci.com/Yonle/httpforwarder.js.svg?token=siupXwSyfqgsbWPiyyVd&branch=master)](https://travis-ci.com/Yonle/httpforwarder.js)
 A lightweight HTTP Forwarder Module made for Express Middleware & Cli
 
 # Getting Started
