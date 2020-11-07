@@ -1,6 +1,6 @@
 var request = require("request");
 
-module.exports = function(url, cb) {
+module.exports = function(url, callback) {
 if (!url||url === null||url === "") return console.log("[HTTPForwarder.js] Hostname should not Empty")
   return function (req, res, next) {
   req.pipe( request({
@@ -15,7 +15,9 @@ if (!url||url === null||url === "") return console.log("[HTTPForwarder.js] Hostn
       throw new Error(error);
       return next();
   }
+if (typeof(cb) === "function") {
 cb(response);
+}
 next();
 })).pipe( res );
 };
