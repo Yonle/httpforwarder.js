@@ -24,7 +24,21 @@ app.use(hf("https://www.example.com"));
 app.listen(3000)
 ```
 Then, Open your Browser and Visit http://localhost:3000
+### Callbacks
+Error Handling
+```js
+app.use(hf("https://www.google.com", (err) => console.log(error)));
+```
+Something...
+```js
+app.use(hf("https://www.example.com", (err, req, res) => {
+if (err) throw err;
 
+//If client requested
+if (req) console.log("--> Client Requested");
+//If the Provided Host is Completely Loaded
+if (res) console.log(`--> Response Sended (${res.statusCode})`);
+}));
 # CLI usage 
 Forward a URL from **www.example.com** to Port 8080
 ```
