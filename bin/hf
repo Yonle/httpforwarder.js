@@ -1,0 +1,179 @@
+#!/usr/bin/env node
+
+process.name = "HTTPForwarder"
+
+const chalk = require("chalk");
+
+var paused = false
+
+var emergency = false
+
+var args = process.argv.slice(2)
+
+var version = require("../package.json").version;
+var url;
+var PORT;
+if (!args[0]) return console.log("Usage: hf <port> <url>")
+PORT = args[0]
+if (args[0].startsWith("env")) PORT = process.env[args[0].split("env.").join("")]
+if (args[0] === "--version") return console.log(version)
+if (!args[1]) return console.log("hf: Please provide url.")
+if (args[1].startsWith("env")) url = process.env[args[1].split("env.").join("")]
+//if (!args[1].startsWith("http")) return console.log(chalk.bold.red("Make sure the provided URL is starts with http:// or https://"))
+
+if (url) {
+//Do nothing if it's already has URL.
+} else {
+url = args[1]
+}
+
+const express = require("express");
+
+const request = require("request");
+
+const fig = require("figlet")
+
+const app = express();
+
+
+app.all("*", (req, res) => {
+  var target = `${url}${req.originalUrl}`;
+  if (paused === true) return;
+  if (emergency === true) {
+res.status(423);
+return res.send(`<body style="background-color: black; color: white;"><center><br><br><br><br><br><br><br><br><h1 style="color:red;">Emergency Mode is ON</h1><p>For some Reason, This server is Locked.<br>Please Try again later.</p></center></body>`);
+}
+  req.pipe( request({
+      url: url + req.params[0],
+      qs: req.query,
+      method: req.method
+  }, function(error, response, body){
+      if (error) {
+      var errormsg = error.code || "Fail";
+      res.status(503)
+      res.send("<h1>503 Service Unavailable</h1>")
+      console.log(chalk.red(`[${new Date()}] ${req.method} ${errormsg} ${target}`));
+      return false;
+  }
+  console.log(chalk.green(`[${new Date()}] ${req.method} ` + response.statusCode + " " + target))
+  })).pipe( res );
+});
+
+const listener = app.listen(PORT, () => {
+
+
+console.clear();
+write("HTTP\nForwarder").then(r => {
+console.log(chalk.bold.cyan("Type 'help' to see all HTTPForwarder command!\n"+r+"\n                  Ver. "+version));
+console.log(chalk.yellow(`\n-> From: ${url}\n-> To: http://127.0.0.1:${listener.address().port}`))
+console.log("---CLI ---------------------------------------------------------")
+process.stdout.write(">>")
+})
+})
+
+
+function write(n) {
+return new Promise((res, rej) => {
+fig(n, (err, r) => res(r))
+
+})
+}
+
+
+process.stdin.resume();
+      process.stdin.setEncoding('utf8');
+      process.stdin.on('data', data => {
+const str = data.toString().trim().toLowerCase()
+if (str === "help") {
+  console.log(chalk.bold("HTTPForwarder                             Ver. "+version))
+  console.log("clear - Clearing Logs")
+  console.log("exec - Executing Inside HTTPForwarder Cli")
+  console.log("exit - Close HTTPForwarder & Close Port")
+  console.log("changeurl - Change the Target URL")
+  console.log("pause - Pause all Traffic")
+  console.log("resume - Resume all Traffic")
+  console.log("em - Emergency Mode. Use this if you got alot of Request.")
+  process.stdout.write(">>")
+  return;
+}
+if (str.startsWith("clear")) {
+console.clear();
+console.log("Cleared")
+return process.stdout.write(">>")
+}
+if (str.startsWith("exec")) {
+var args = str.slice(5)
+if (!args) {
+ console.log("Usage: exec <command>");
+return process.stdout.write(">>")
+}
+require("child_process").exec(args, (err, output, errorout) => {
+console.log(errorout||output)
+return process.stdout.write(">>");
+})
+process.stdout.write(">>")
+return;
+}
+if (str.startsWith("exit")) {
+console.clear()
+console.log(chalk.bold.green(`[${new Date()}] Bye-bye!`))
+return process.exit();
+}
+if (str.startsWith("changeurl")) {
+var args = str.split("changeurl ").join("")
+if (!args) {
+ console.log("Usage: changeurl <URL>")
+return process.stdout.write(">>")
+}
+//if (!args.startsWith("http")) return console.log(chalk.bold.red("Make sure the provided URL is starts with http:// or https://"));
+url = args
+console.log(chalk.bold.green("Setted Target URL as "+args))
+process.stdout.write(">>")
+return;
+}
+if (str.startsWith("pause")) {
+if (paused !== true) {
+paused = true
+console.log(chalk.bold.green("Paused all Trafiic."));
+process.stdout.write(">>")
+return;
+} else {
+console.log(chalk.yellow("Traffic is already Paused,\nDid you mean 'resume'?"));
+process.stdout.write(">>")
+return;
+}
+return;
+}
+if (str.startsWith("resume")) {
+if (paused === true) {
+paused = false
+console.log(chalk.bold.green("Resumed all Trafiic."));
+process.stdout.write(">>")
+return;
+} else {
+console.log(chalk.yellow("Traffic is already Resumed,\nDid you mean 'pause'?"));
+process.stdout.write(">>")
+return;
+}
+return;
+}
+if (str.startsWith("em")) {
+if (emergency !== true) {
+emergency = true
+console.clear();
+console.log(chalk.bold.red("Emergency Mode is ON"));
+console.log("You were entered to Emergency Mode. \nHowever, All request will sended with 423 Error. \nSo all Traffic will blocked with That error.\n\nFor disabling this, Type 'em' again.")
+process.stdout.write(">>")
+return;
+}
+emergency = false
+console.clear()
+console.log(chalk.bold.red("Emergency mode has Switched off."));
+return process.stdout.write(">>");
+}
+console.log("Unknow Command, Type 'help' for see all command.")
+process.stdout.write(">>")
+});
+
+
+
