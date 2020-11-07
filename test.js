@@ -22,7 +22,7 @@ app.use(hf("https://www.example.com"));
 
 var listener = app.listen(process.env.PORT, function() {
 console.log("--> Port Opened. Sending Request...");
-require("http").get(`http://localhost:${listener.address().port`, function (res) {
+require("http").get(`http://localhost:${listener.address().port}`, function (res) {
 console.log("--> PERFECT!!");
 process.exit(0);
 })
