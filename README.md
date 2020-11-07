@@ -24,7 +24,7 @@ app.use(hf("https://www.example.com"));
 app.listen(3000)
 ```
 Then, Open your Browser and Visit http://localhost:3000
-**NOTE**: `app.use("/forwarded", hf("https://www.example.com"));` method Is not Working Anymore!!!!
+
 # CLI usage 
 Forward a URL from **www.example.com** to Port 8080
 ```
@@ -33,7 +33,8 @@ hf 8080 https://www.example.com
 Then, Visit http://localhost:8080
 
 ## Get env value
-If you're want to get a value from `process.env`, You can try to set a value for the `PORT` or `TARGET` value as `env.YourEnvValue`
+If you're want to get a value from `process.env`, You can try to set a value for the `PORT` or `TARGET` value as `env.YourEnvValue`.
+
 Example:
 ```bash
 # Get 'PORT' value from process.env for PORT.

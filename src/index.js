@@ -1,11 +1,10 @@
 var request = require("request");
 
-module.exports = function(url, (err, ress)) {
+module.exports = function(url, err, ress) {
 if (!url||url === null||url === "") return console.log("[HTTPForwarder.js] Hostname should not Empty")
-  return async (req, res, next) => {
-  var target = url+req.originalUrl;
-  await req.pipe( request({
-      url: url + req.params[0],
+  return (req, res, next) => {
+  req.pipe( request({
+      url: url + req["_parsedUrl"].pathname,
       qs: req.query,
       method: req.method
   }, function(error, response, body){
@@ -14,10 +13,10 @@ if (!url||url === null||url === "") return console.log("[HTTPForwarder.js] Hostn
       res.status(503)
       res.send("<h1>503 Service Unavailable</h1>");
       err(error);
-      ress(response);
-      return false;
+      return next();
   }
-ress(response);
+ress = response;
+next();
 })).pipe( res );
 };
 }
