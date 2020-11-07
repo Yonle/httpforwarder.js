@@ -2,7 +2,7 @@ var request = require("request");
 
 module.exports = function(url, err, ress) {
 if (!url||url === null||url === "") return console.log("[HTTPForwarder.js] Hostname should not Empty")
-  return (req, res, next) => {
+  return function (req, res, next) {
   req.pipe( request({
       url: url + req["_parsedUrl"].pathname,
       qs: req.query,
