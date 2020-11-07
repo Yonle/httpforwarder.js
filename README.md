@@ -43,6 +43,11 @@ hf env.PORT https://www.example.com
 ## Feedback
 Any question or doubt can join our [Discord Server](https://discord.gg/9S3ZCDR).
 
+## Testing
+```bash
+npm run test
+# NOTE: Only Run Module Test. 
+```
 ## MIT License
 
 Copyright (c) 2020 Yonle
