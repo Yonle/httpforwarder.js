@@ -1,6 +1,6 @@
 var request = require("request");
 
-module.exports = function(url, err, ress) {
+module.exports = function(url, cb) {
 if (!url||url === null||url === "") return console.log("[HTTPForwarder.js] Hostname should not Empty")
   return function (req, res, next) {
   req.pipe( request({
@@ -12,10 +12,10 @@ if (!url||url === null||url === "") return console.log("[HTTPForwarder.js] Hostn
       var errormsg = error.code || "Fail";
       res.status(503)
       res.send("<h1>503 Service Unavailable</h1>");
-      err(error);
+      throw new Error(error);
       return next();
   }
-ress = response;
+cb(response);
 next();
 })).pipe( res );
 };
