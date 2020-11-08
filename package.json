@@ -1,6 +1,6 @@
 {
   "name": "httpforwarder.js",
-  "version": "0.2.5",
+  "version": "0.2.7",
   "description": "A lightweight HTTP Forwarder Module made for Express Middleware & Cli",
   "main": "src/index.js",
   "scripts": {
@@ -11,9 +11,6 @@
   ],
   "bin": {
     "hf": "bin/hf"
-  },
-  "engines": {
-    "node": "12.x"
   },
   "repository": {
     "type": "git",
