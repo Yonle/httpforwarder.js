@@ -1,6 +1,6 @@
 {
   "name": "httpforwarder.js",
-  "version": "0.2.8-canary",
+  "version": "0.2.9-canary",
   "description": "A lightweight HTTP Forwarder Module made for Express Middleware & Cli",
   "main": "src/index.js",
   "scripts": {
