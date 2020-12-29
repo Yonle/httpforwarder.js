@@ -1,7 +1,11 @@
-var request = require("request");
+const request = require("request");
+const WebSocket = require('ws');
+const events = require("events");
+var url;
 
 module.exports = function(url, cb) {
 if (!url||url === null||url === "") return console.log("[HTTPForwarder.js] Hostname should not Empty")
+  url = url;
   return function (req, res, next) {
   req.pipe( request({
       url: url + req["_parsedUrl"].pathname,
@@ -26,3 +30,4 @@ next();
 })).pipe( res );
 };
 }
+

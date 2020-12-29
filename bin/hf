@@ -31,10 +31,17 @@ const express = require("express");
 
 const request = require("request");
 
-const fig = require("figlet")
+const wsserver = require("ws").Server;
+
+const wf = require("wf.js");
+
+const fig = require("figlet");
 
 const app = express();
 
+const server = require("http").createServer(app);
+
+const wss = new wssserver({ server });
 
 app.all("*", (req, res) => {
   var target = `${url}${req.originalUrl}`;
@@ -59,7 +66,7 @@ return res.send(`<body style="background-color: black; color: white;"><center><b
   })).pipe( res );
 });
 
-const listener = app.listen(PORT, () => {
+const listener = server.listen(PORT, () => {
 
 
 console.clear();
@@ -71,7 +78,12 @@ process.stdout.write(">>")
 })
 })
 
+wss.on("connection", function (w) {
+if (paused === true) return;
+if (emergency) return w.close();
 
+wf(url.replace(/^http/, 'ws'))(w)
+})
 function write(n) {
 return new Promise((res, rej) => {
 fig(n, (err, r) => res(r))

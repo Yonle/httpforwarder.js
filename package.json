@@ -1,6 +1,6 @@
 {
   "name": "httpforwarder.js",
-  "version": "0.2.7",
+  "version": "0.2.8-canary",
   "description": "A lightweight HTTP Forwarder Module made for Express Middleware & Cli",
   "main": "src/index.js",
   "scripts": {
@@ -23,6 +23,7 @@
     "chalk": "^4.1.0",
     "express": "^4.17.1",
     "figlet": "^1.5.0",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "wf.js": "*"
   }
 }
