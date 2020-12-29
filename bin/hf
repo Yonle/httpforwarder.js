@@ -41,7 +41,7 @@ const app = express();
 
 const server = require("http").createServer(app);
 
-const wss = new wssserver({ server });
+const wss = new wsserver({ server });
 
 app.all("*", (req, res) => {
   var target = `${url}${req.originalUrl}`;
